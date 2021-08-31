@@ -4,6 +4,7 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
 import static minsait.ttaa.datio.common.Common.*;
+import static minsait.ttaa.datio.common.naming.PlayerInput.nationality;
 import static minsait.ttaa.datio.common.naming.PlayerInput.teamPosition;
 import static org.apache.spark.sql.SaveMode.Overwrite;
 
@@ -14,6 +15,15 @@ abstract class Writer {
                 .coalesce(2)
                 .write()
                 .partitionBy(teamPosition.getName())
+                .mode(Overwrite)
+                .parquet(OUTPUT_PATH);
+    }
+
+    static void excersiceWrite(Dataset<Row> df){
+        df
+                .coalesce(1)
+                .write()
+                .partitionBy(nationality.getName())
                 .mode(Overwrite)
                 .parquet(OUTPUT_PATH);
     }
